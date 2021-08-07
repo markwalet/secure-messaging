@@ -19,7 +19,6 @@ abstract class TestCase extends BaseTestCase
      */
     public function asUser(array $attributes = [], string $guard = 'sanctum'): User
     {
-        /** @var User $user */
         $user = User::factory()->create($attributes);
 
         $this->be($user, $guard);

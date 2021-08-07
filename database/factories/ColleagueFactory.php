@@ -2,8 +2,14 @@
 
 namespace Database\Factories;
 
+use App\Models\Colleague;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @method Colleague|Colleague[] create($attributes = [], ?Model $parent = null)
+ * @method Colleague|Colleague[] make($attributes = [], ?Model $parent = null)
+ */
 class ColleagueFactory extends Factory
 {
     /**
