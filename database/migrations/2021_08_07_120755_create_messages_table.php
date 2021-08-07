@@ -16,7 +16,7 @@ class CreateMessagesTable extends Migration
     {
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Colleague::class);
+            $table->foreignIdFor(Colleague::class)->constrained();
             $table->string('password');
             $table->text('message');
             $table->dateTime('available_until');
