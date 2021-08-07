@@ -13,7 +13,7 @@ class FactoryTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * @param string|Model $class
+     * @param string $class
      *
      * @test
      * @dataProvider models
