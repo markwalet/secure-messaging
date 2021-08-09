@@ -15,5 +15,6 @@ Route::get('/', function () {
 });
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::resource('messages', MessageController::class)->only(['create', 'store', 'show']);
+    Route::resource('messages', MessageController::class)->only(['create', 'store']);
+    Route::resource('messages', MessageController::class)->only(['show'])->middleware('signed');
 });

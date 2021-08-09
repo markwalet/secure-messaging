@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Messages\StoreMessageRequest;
 use App\Models\Colleague;
 use App\Models\Message;
+use App\Notifications\MessageStoredNotification;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -48,6 +50,9 @@ class MessageController extends Controller
         $message->password = bcrypt(Str::random());
         $message->save();
 
+        Notification::route('mail', $message->colleague->email)
+            ->notify(new MessageStoredNotification($message));
+
         return redirect()->route('messages.create');
     }
 
@@ -59,43 +64,6 @@ class MessageController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Message $message)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param \App\Models\Message $message
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Message $message)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Message      $message
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Message $message)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param \App\Models\Message $message
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Message $message)
     {
         //
     }
