@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Prunable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
+use MarkWalet\LaravelHashedRoute\Concerns\HasHashedRouteKey;
 
 /**
  * @property-read int    $id
@@ -27,6 +28,7 @@ class Message extends Model
 {
     use HasFactory;
     use Prunable;
+    use HasHashedRouteKey;
 
     /**
      * The number of hours the message will be available for the receiving colleague.
