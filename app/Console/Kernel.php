@@ -18,6 +18,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command(SynchronizeColleaguesCommand::class)->everyTwoHours();
+        $schedule->command('model:prune')->everyThirtyMinutes();
     }
 
     /**

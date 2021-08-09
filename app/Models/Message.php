@@ -3,8 +3,10 @@
 namespace App\Models;
 
 use Database\Factories\MessageFactory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Prunable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 
@@ -22,6 +24,7 @@ use Illuminate\Support\Carbon;
 class Message extends Model
 {
     use HasFactory;
+    use Prunable;
 
     /**
      * The number of hours the message will be available for the receiving colleague.
@@ -37,6 +40,16 @@ class Message extends Model
         'available_until' => 'date',
         'colleague_id'    => 'int',
     ];
+
+    /**
+     * Get the prunable model query.
+     *
+     * @return Builder
+     */
+    public function prunable(): Builder
+    {
+        return static::query()->where('available_until', '<', now());
+    }
 
     /**
      * Get a query builder instance for the `colleague` relation.
