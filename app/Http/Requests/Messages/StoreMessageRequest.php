@@ -4,6 +4,7 @@ namespace App\Http\Requests\Messages;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Password;
 
 class StoreMessageRequest extends FormRequest
 {
@@ -19,9 +20,14 @@ class StoreMessageRequest extends FormRequest
                 'required',
                 Rule::exists('colleagues', 'id'),
             ],
-            'message' => [
+            'message'   => [
                 'required',
                 'string',
+            ],
+            'password'  => [
+                'required',
+                'string',
+                Password::min(12),
             ],
         ];
     }

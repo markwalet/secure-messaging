@@ -47,8 +47,8 @@ class MessageController extends Controller
         $message->colleague()->associate($request->input('colleague'));
         $message->user()->associate($request->user());
         $message->message = $request->input('message');
+        $message->password = bcrypt($request->input('password'));
         $message->available_until = now()->addHours(Message::KEEPALIVE);
-        $message->password = bcrypt('secret');
         $message->save();
 
         Notification::route('mail', $message->colleague->email)

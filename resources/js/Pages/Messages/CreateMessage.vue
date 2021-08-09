@@ -24,21 +24,31 @@
                             <jet-input-error :message="form.errors.colleague" class="mt-2" />
                         </div>
 
-                        <!-- Message -->
                         <div class="col-span-6 sm:col-span-4">
                             <jet-label for="message" value="Message" />
                             <jet-input id="message" type="text" class="mt-1 block w-full" v-model="form.message" />
                             <jet-input-error :message="form.errors.message" class="mt-2" />
                         </div>
+
+                        <div class="col-span-6 sm:col-span-4">
+                            <jet-label for="password" value="Password" />
+                            <jet-input id="password" type="text" class="mt-1 block w-full" v-model="form.password" />
+                            <jet-input-error :message="form.errors.password" class="mt-2" />
+                            <div class="mt-3 text-sm text-gray-600">
+                                <p>
+                                    The password will not be sent via mail to your colleague. You have to share it manually with him, preferably not by mail.
+                                </p>
+                            </div>
+                        </div>
                     </template>
 
                     <template #actions>
                         <jet-action-message :on="form.recentlySuccessful" class="mr-3">
-                            Saved.
+                            The mail is sent to your colleage.
                         </jet-action-message>
 
                         <jet-button :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                            Save
+                            Send
                         </jet-button>
                     </template>
                 </jet-form-section>
@@ -81,8 +91,13 @@
                     _method  : 'POST',
                     colleague: null,
                     message  : '',
+                    password : '',
                 }),
             };
+        },
+
+        mounted() {
+            this.form.password = this.generatePassword();
         },
 
         methods: {
@@ -91,9 +106,19 @@
                     onSuccess: () => {
                         this.form.colleague = null;
                         this.form.message = '';
-                    }
+                        this.form.password = this.generatePassword();
+                    },
                 });
-
+            },
+            generatePassword() {
+                let result = '';
+                const characters = 'ABCDEFGHJKLMNOPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789';
+                const charactersLength = characters.length;
+                for (let i = 0; i < 16; i++) {
+                    result += characters.charAt(Math.floor(Math.random() *
+                                                           charactersLength));
+                }
+                return result;
             },
         },
     };

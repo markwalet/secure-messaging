@@ -61,6 +61,7 @@ class StoreMessageTest extends TestCase
         return array_map('value', array_merge([
             'colleague' => fn () => Colleague::factory()->create()->id,
             'message'   => 'Lorem ipsum dolor sit amed',
+            'password'  => 'asiojaj0)J(ASDnioiasd',
         ], $data));
     }
 }
