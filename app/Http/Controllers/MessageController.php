@@ -9,10 +9,10 @@ use App\Notifications\MessageStoredNotification;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response;
-use function PDF_pcos_get_stream;
 
 class MessageController extends Controller
 {
@@ -21,7 +21,7 @@ class MessageController extends Controller
      *
      * @return Response
      */
-    public function create()
+    public function create(): Response
     {
         $colleagues = Colleague::all()->map(function (Colleague $colleague) {
             return [
@@ -47,7 +47,7 @@ class MessageController extends Controller
         $message->colleague()->associate($request->input('colleague'));
         $message->message = $request->input('message');
         $message->available_until = now()->addHours(Message::KEEPALIVE);
-        $message->password = bcrypt(Str::random());
+        $message->password = bcrypt('secret');
         $message->save();
 
         Notification::route('mail', $message->colleague->email)
@@ -59,12 +59,14 @@ class MessageController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param \App\Models\Message $message
+     * @param Message $message
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
-    public function show(Message $message)
+    public function show(Message $message): Response
     {
-        //
+        $signedRoute = URL::signedRoute('decrypt-message', compact('message'));
+
+        return Inertia::render('Messages/ShowMessage', compact('signedRoute'));
     }
 }

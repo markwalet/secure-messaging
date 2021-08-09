@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DecryptMessageController;
 use App\Http\Controllers\MessageController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -14,7 +15,8 @@ Route::get('/', function () {
     ]);
 });
 
-Route::middleware('auth:sanctum')->group(function () {
-    Route::resource('messages', MessageController::class)->only(['create', 'store']);
-    Route::resource('messages', MessageController::class)->only(['show'])->middleware('signed');
-});
+Route::resource('messages', MessageController::class)->only(['create', 'store'])->middleware('auth:sanctum');
+Route::resource('messages', MessageController::class)->only(['show'])->middleware('signed');
+Route::post('messages/{message}', DecryptMessageController::class)
+    ->middleware('signed')
+    ->name('decrypt-message');
