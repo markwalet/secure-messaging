@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\Messages;
 
+use App\Models\Message;
 use App\Rules\ValidPasswordForMessageRule;
 use Illuminate\Foundation\Http\FormRequest;
-use JetBrains\PhpStorm\ArrayShape;
 
 class DecryptMessageRequest extends FormRequest
 {
@@ -15,10 +15,13 @@ class DecryptMessageRequest extends FormRequest
      */
     public function rules(): array
     {
+        /** @var Message $message */
+        $message = $this->route('message');
+
         return [
             'password' => [
                 'required',
-                new ValidPasswordForMessageRule($this->route('message')),
+                new ValidPasswordForMessageRule($message),
             ],
         ];
     }

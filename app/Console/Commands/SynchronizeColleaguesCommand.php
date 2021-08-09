@@ -32,8 +32,13 @@ class SynchronizeColleaguesCommand extends Command
     public function handle(PasteBinClient $client): int
     {
         $data = $client->json('uDzdKzGG');
+        $emailAddresses = [];
 
         foreach ($data as $row) {
+            if (in_array($row['email'], $emailAddresses)) {
+                $this->warn("Skipping a colleague with emailadress {$row['email']} because the email adress is already in use.");
+            }
+            $emailAddresses[] = $row['email'];
             $this->storeOrUpdateColleague(
                 name: $row['name'],
                 email: $row['email']
