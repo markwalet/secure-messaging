@@ -14,6 +14,8 @@ use Illuminate\Support\Carbon;
  * @property-read int    $id
  * @property int         $colleague_id
  * @property Colleague   $colleague
+ * @property int         $user_id
+ * @property User        $user
  * @property string      $password
  * @property string      $message
  * @property Carbon      $available_until
@@ -39,6 +41,7 @@ class Message extends Model
     protected $casts = [
         'available_until' => 'date',
         'colleague_id'    => 'int',
+        'user_id'         => 'int',
     ];
 
     /**
@@ -59,5 +62,15 @@ class Message extends Model
     public function colleague(): BelongsTo
     {
         return $this->belongsTo(Colleague::class);
+    }
+
+    /**
+     * Get a query builder instance for the `user` relation.
+     *
+     * @return BelongsTo
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }

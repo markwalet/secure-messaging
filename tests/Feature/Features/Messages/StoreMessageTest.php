@@ -13,7 +13,7 @@ class StoreMessageTest extends TestCase
     /** @test */
     public function an_authenticated_user_can_view_the_create_message_page()
     {
-        $this->asUser();
+        $user = $this->asUser();
         $colleague = Colleague::factory()->create();
 
         $response = $this->post(route('messages.store'), $this->validData([
@@ -25,6 +25,7 @@ class StoreMessageTest extends TestCase
         $this->assertDatabaseCount('messages', 1);
         $this->assertDatabaseHas('messages', [
             'colleague_id' => $colleague->id,
+            'user_id'      => $user->id,
             'message'      => 'A very secret message',
         ]);
     }

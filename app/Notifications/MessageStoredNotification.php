@@ -42,16 +42,13 @@ class MessageStoredNotification extends Notification
      *
      * @param mixed $notifiable
      *
-     * @return \Illuminate\Notifications\Messages\MailMessage
+     * @return MailMessage
      */
     public function toMail($notifiable)
     {
-        /** @var User $sender */
-        $sender = User::query()->first();
-
         return (new MailMessage())
             ->subject('A secure message has been sent!')
-            ->line("A secure message has been sent. You can ask your colleague *$sender->name* for the password to decrypt the message.")
+            ->line("A secure message has been sent. You can ask your colleague *{$this->message->user->name}* for the password to decrypt the message.")
             ->action('View the message', URL::signedRoute('messages.show', ['message' => $this->message]))
             ->line('Thank you for using our application!');
     }
